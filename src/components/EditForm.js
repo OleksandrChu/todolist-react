@@ -3,39 +3,40 @@ import Form from "react-bootstrap/Form";
 import TodoItem from "./TodoItem";
 
 class EditForm extends Component {
-    state = {}
+    state = {name: '', cancel: false}
 
-    onSaveChangesEvent = (event) => {
+    onUpdateHandler = (event, task) => {
         event.preventDefault();
-        this.setState({
-            save: true
-        })
+        this.props.onUpdateEvent(task);
+        this.setState({name: '', cancel: true})
     }
 
-    onCancelChangesEvent = (event) => {
+    onCancelEvent = (event) => {
         event.preventDefault();
         this.setState({
-            save: true
+            cancel: true
         })
     }
 
     render() {
         const task = this.props.task;
-        return ( (!this.state.save) ?
-                <div
+
+        return ((!this.state.cancel) ?
+                <form
                     className="edit-container"
-                    onSubmit={this.onSubmitHandler}>
+                    onSubmit={(event) => this.onUpdateHandler(event, task)}>
                     <Form.Control
                         type="text"
                         className="form-control"
                         required
-                        onChange={this.onChange}
                         value={task.name}/>
-                    <button type="click" className="btn btn-success" onClick={this.onSaveChangesEvent}>Save</button>
-                    <button type="click" className="btn btn-danger" onClick={this.onCancelChangesEvent}>cancel</button>
-                </div> : <TodoItem task={task}/>
+                    <button type="submit" className="btn btn-success">Save</button>
+                    <button type="click" className="btn btn-danger" onClick={this.onCancelEvent}>cancel</button>
+                </form> : <TodoItem task={task}/>
         );
     }
 }
+
+// onClick={(event) => this.onSaveChangesEvent(event, task.name)}
 
 export default EditForm

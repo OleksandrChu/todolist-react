@@ -85,6 +85,26 @@ class App extends Component {
             }));
     }
 
+    updateTask = (target) => {
+        const {task} = target;
+        const options = {
+            method: 'PUT',
+            body: JSON.stringify(task),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+        fetch(`http://localhost:5000/api/task/${task.id}`, options)
+            .then(response => response.json())
+            .then(updatedTask => {
+                let currentList = this.state.currentList;
+                currentList.tasks[currentList.tasks.indexOf(task)] = updatedTask;
+                this.setState({
+                    currentList: currentList
+                })
+            });
+    }
+
     deleteRequest(url) {
         const deleteOption = {
             method: 'DELETE',
@@ -106,7 +126,7 @@ class App extends Component {
                 state[updateProps.target] = needUpdate;
             }
             this.setState({
-                [updateProps.name] : state
+                [updateProps.name]: state
             })
         }
     }
@@ -120,7 +140,11 @@ class App extends Component {
                     <ListForm onSubmit={this.createList}/>
                 </div>
                 <section className="todo-container">
-                    <Tasks tasks={this.state.currentList.tasks} onDeleteEvent={this.deleteTask}/>
+                    <Tasks
+                        tasks={this.state.currentList.tasks}
+                        onDeleteEvent={this.deleteTask}
+                        onUpdateEvent={this.updateTask}
+                    />
                     <TaskForm onSubmit={this.createTask}/>
                 </section>
             </div>

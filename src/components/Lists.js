@@ -20,7 +20,7 @@ class Lists extends Component {
         return (
             <ul>
                 {this.props.lists
-                    .map(list => <li onClick={() => this.onClickHandler(list)}>{list.name}
+                    .map(list => <li key={list.id} onClick={() => this.onClickHandler(list)}>{list.name}
                         <button className="btn btn-light"
                                 onClick={(event) => this.onDeleteHandler(event, list)}>&#xE74D;</button>
                     </li>)}

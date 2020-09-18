@@ -8,10 +8,21 @@ class Tasks extends Component {
         });
     }
 
+    onUpdateHandler = (event, task) => {
+        this.props.onUpdateEvent({
+            task
+        });
+    }
+
     render() {
         return (this.props.tasks) ?
             (<div id="todo-body" className="todo-body">
-                {this.props.tasks.map(t => <TodoItem task={t} onDeleteEvent={(event)=> this.onDeleteHandler(event, t)}/>)}
+                {this.props.tasks.map(t => <TodoItem
+                    key={t.id}
+                    task={t}
+                    onDeleteEvent={(event)=> this.onDeleteHandler(event, t)}
+                    onUpdateEvent={(event) => this.onUpdateHandler(event, t)}
+                />)}
             </div>) : '';
     }
 }
